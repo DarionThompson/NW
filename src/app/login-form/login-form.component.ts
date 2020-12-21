@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { LoginRepsonse } from '../Model/login.service';
+import { AuthenticationService } from '../Service/authentication.service';
 import {LoginValidators} from '../Validators/login.validators';
 
 @Component({
@@ -8,6 +12,12 @@ import {LoginValidators} from '../Validators/login.validators';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent {
+
+  constructor(private router:Router, private authService: AuthenticationService){}
+
+  logthang : LoginRepsonse
+
+  errorMessage : string;
   form = new FormGroup({
     'username': new FormControl('', 
     [
@@ -29,5 +39,24 @@ export class LoginFormComponent {
 
   get password(){
     return this.form.get('password')
+  }
+
+  login(){
+      let loginModel = 
+      { 
+        username : this.username.value,
+        password : this.password.value
+      }
+       var response = this.authService.Login(loginModel).subscribe(
+         data => {
+          console.log(data)
+          this.logthang = data
+          this.router.navigateByUrl('/dashboard')
+
+         }, error => {
+           console.log(error);
+         }
+       )
+       console.log(this.logthang);
   }
 }

@@ -1,0 +1,4 @@
+{
+    "loginUrl": "api/Account/login",
+    "productUrl": "api/product"
+  }

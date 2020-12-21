@@ -1,5 +1,5 @@
 <div id="login-panel" class="panel panel -defualt">
-    <form [formGroup]="form"> 
+    <form [formGroup]="form" (ngSubmit)="login()"> 
         <div class="form-group">
             <label for="username">Username</label>
             <input 
