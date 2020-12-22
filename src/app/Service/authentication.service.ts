@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core'
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http'
-import { Observable, of } from 'rxjs'
+import { Observable, from} from 'rxjs'
 import { LoginRepsonse } from '../Model/login.service';
+import 'rxjs/add/operator/map';
+//import {mergeMap} from 'rxjs/add/operator/mergeMap';
 
 @Injectable()
 export class AuthenticationService{
@@ -16,6 +18,12 @@ export class AuthenticationService{
     }
 
     Login(model: any): Observable<any>{
-        return this.http.post(this.Url,model,{headers: this.Header})
+       var result = from(this.http.post<LoginRepsonse>(this.Url,model,{headers: this.Header}))
+       debugger
+       return result.map(response => localStorage.setItem("authToken",response.accessToken))
+    }
+
+    GetAuthToken(){
+        return localStorage.getItem("authToken");
     }
 }

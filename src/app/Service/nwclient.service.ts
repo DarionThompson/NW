@@ -1,25 +1,21 @@
 import {Injectable} from '@angular/core'
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http'
 import { Observable } from 'rxjs'
+import { AuthenticationService } from './authentication.service'
+import { Product } from '../Model/product'
 
 @Injectable()
 export class nwClientService{
 
-    constructor(private http : HttpClient){}
+    Url :string
+    Header = HttpHeaders
 
-    loginUrl = "api/Account/login"
+    constructor(private http : HttpClient, private authService : AuthenticationService){
+      this.Url = 'https://localhost:5001/api/Product';
+  }
 
-    options: {
-        headers?: HttpHeaders | {[header: string]: string | string[]},
-        observe?: 'body' | 'events' | 'response',
-        params?: HttpParams|{[param: string]: string | string[]},
-        reportProgress?: boolean,
-        responseType?: 'arraybuffer'|'blob'|'json'|'text',
-        withCredentials?: boolean,
-      }
-
-    getProducts(){
-        
-    }
-    
+  getProducts(): Observable<any>{
+    let header = new HttpHeaders({'Authorization': `Bearer ${this.authService.GetAuthToken()}`})
+      return this.http.get<Product[]>(this.Url, {headers:header})
+  }
 }

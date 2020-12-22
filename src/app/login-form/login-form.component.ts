@@ -51,12 +51,12 @@ export class LoginFormComponent {
          data => {
           console.log(data)
           this.logthang = data
-          this.router.navigateByUrl('/dashboard')
+          this.router.navigateByUrl('')
 
          }, error => {
+           this.errorMessage = error.errorMessage
            console.log(error);
          }
        )
-       console.log(this.logthang);
   }
 }

@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-6">
+        <h2>Products</h2>
+    </div>
+</div>
+<table *ngIf="[Products]?.length > 0;else noProducts" class="table table-striped">
+    <thead class="thread-inverse">
+        <tr>
+            <th>Product Name</th>
+            <td>Unit Price</td>
+            <td>Units In Stock</td>
+            <td>Discontinued</td>
+            <td>Category</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of Products">
+            <td>{{product.productName}}</td>
+            <td>{{product.unitPrice | currency:"USD":"symbol"}}</td>
+            <td>{{product.discontinued}}</td>
+            <td>{{product.categoryId}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #noProducts>
+    <hr>
+    <h5>There are no products in stock</h5>
+</ng-template>
